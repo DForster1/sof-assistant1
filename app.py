@@ -5,8 +5,9 @@ import openai
 import pdfplumber
 from fpdf import FPDF
 
-# —– HARD-CODED FOR PROTOTYPE ONLY —–
 openai.api_key = st.secrets["OPENAI_API_KEY"]
+st.write("🔑 Key prefix:", st.secrets["OPENAI_API_KEY"][:4])
+st.write("🔢 Key length:",  len(st.secrets["OPENAI_API_KEY"]))
 
 st.set_page_config(page_title="AML Source-of-Funds Assistant")
 st.title("AML Source-of-Funds Assistant")
