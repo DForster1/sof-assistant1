@@ -57,13 +57,21 @@ Bank Statement Text:
 """
 
         # 3) call OpenAI
-        response = openai.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role":"system","content":"You are an expert AML assistant for conveyancing."},
-                {"role":"user","content":prompt}
-            ],
-        )
+        from openai.error import RateLimitError
+
+# Try GPT-3.5-turbo via the ChatCompletion interface
+try:
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system",  "content": "You are an expert AML assistant for conveyancing."},
+            {"role": "user",    "content": prompt}
+        ],
+    )
+except RateLimitError:
+    st.error("🔴 Rate limit reached even on GPT-3.5-turbo – please wait a minute and try again.")
+    st.stop()
+
 
         # 4) parse JSON
         try:
