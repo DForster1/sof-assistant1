@@ -58,7 +58,7 @@ Bank Statement Text:
 
         # 3) call OpenAI
         response = openai.chat.completions.create(
-            model="gpt-4",
+            model="gpt-3.5-turbo",
             messages=[
                 {"role":"system","content":"You are an expert AML assistant for conveyancing."},
                 {"role":"user","content":prompt}
