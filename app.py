@@ -74,7 +74,7 @@ except RateLimitError:
 
 
         # 4) parse JSON
-        try:
+try:
             result = json.loads(response.choices[0].message.content)
         except json.JSONDecodeError:
             st.error("Failed to parse AI response as JSON.")
