@@ -7,7 +7,7 @@ from fpdf import FPDF
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 st.write("🔑 Key prefix:", st.secrets["OPENAI_API_KEY"][:4])
-st.write("🔢 Key length:",  len(st.secrets["OPENAI_API_KEY"]))
+st.write("🔢 Key length:", len(st.secrets["OPENAI_API_KEY"]))
 
 st.set_page_config(page_title="AML Source-of-Funds Assistant")
 st.title("AML Source-of-Funds Assistant")
@@ -59,22 +59,20 @@ Bank Statement Text:
         # 3) call OpenAI
         from openai.error import RateLimitError
 
-# Try GPT-3.5-turbo via the ChatCompletion interface
-try:
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system",  "content": "You are an expert AML assistant for conveyancing."},
-            {"role": "user",    "content": prompt}
-        ],
-    )
-except RateLimitError:
-    st.error("🔴 Rate limit reached even on GPT-3.5-turbo – please wait a minute and try again.")
-    st.stop()
-
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are an expert AML assistant for conveyancing."},
+                    {"role": "user", "content": prompt},
+                ],
+            )
+        except RateLimitError:
+            st.error("🔴 Rate limit reached even on GPT-3.5-turbo – please wait a minute and try again.")
+            st.stop()
 
         # 4) parse JSON
-try:
+        try:
             result = json.loads(response.choices[0].message.content)
         except json.JSONDecodeError:
             st.error("Failed to parse AI response as JSON.")
